@@ -1,0 +1,154 @@
+html, body {
+  font-family: "Roboto", sans-serif;
+  height: 100%;
+  background: #6796C9;
+}
+
+#root {
+  height: 100%;
+}
+
+.App {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileContainer {
+  width: 360px;
+  height: 640px;
+  background-color: #FFFFFF;
+  position: relative;
+}
+
+/*colors*/
+.bg-white {
+  background-color: #FFFFFF;
+}
+.bg-dark-blue {
+  background-color: #3066BC;
+}
+.bg-blue {
+  background-color: #417EDE;
+}
+.bg-light-blue {
+  background-color: #0397F8;
+}
+
+.envelope {
+  background-image: url(./images/envelope.svg), url(./images/envelope.svg);
+  background-repeat: no-repeat;
+  background-position: 0 80px, 100% 80px;
+}
+
+.statusBar {
+  width: 100%;
+  height: 24px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 8px;
+  box-sizing: border-box;
+}
+
+.appBar {
+  width: 100%;
+  height: 56px;
+  background: #FFFFFF;
+  position: absolute;
+  top: 24px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  box-shadow: rgba(0,0,0,.05) 0px 4px 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #272727;
+}
+
+.appBar-logo {
+  display: flex;
+  align-items: center;
+  margin-left: 14px;
+}
+
+.appBar-logo h1 {
+  font-size: 20px;
+  margin-left: 8px;
+}
+
+.appContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100% - 128px);
+  position: relative;
+  top: 80px;
+}
+
+/*Font*/
+.firaSans {font-family: 'Fira Sans', sans-serif;}
+.semiBold {font-weight: 600;}
+.regular {font-weight: 400;}
+
+.appBar-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #737373;
+}
+
+.fab {
+  width: 56px;
+  height: 56px;
+  position: absolute;
+  right: 24px;
+  bottom: 66px;
+  border-radius: 100%;
+  box-shadow: rgba(0,0,0,.12) 0px 0px 6px, rgba(0,0,0,.24) 0px 6px 6px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navigationBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+#home {
+  text-align: center;
+  max-width: 244px;
+  position: relative;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+#home h2 {
+  color: #272727;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 27px 0 37px 0;
+}
+
+#home p {
+  color: #737373;
+  font-size: 14px;
+  line-height: 1.43;
+  margin: 0 0 52px 0;
+}
