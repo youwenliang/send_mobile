@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="9" height="722" viewBox="0 0 9 722">
+  <g fill="none" fill-rule="evenodd">
+    <polygon fill="#D70022" points="0 0 9 6 9 34 0 28"/>
+    <polygon fill="#D70022" points="0 69 8.768 75 8.768 103 0 97"/>
+    <polygon fill="#0A84FF" points="0 35 8.768 41 8.768 69 0 63"/>
+    <polygon fill="#D70022" points="0 138 8.768 144 8.768 172 0 166"/>
+    <polygon fill="#0A84FF" points="0 104 8.768 110 8.768 138 0 132"/>
+    <polygon fill="#D70022" points="0 207 8.768 213 8.768 241 0 235"/>
+    <polygon fill="#0A84FF" points="0 173 8.768 179 8.768 207 0 201"/>
+    <polygon fill="#D70022" points="0 276 8.768 282 8.768 310 0 304"/>
+    <polygon fill="#0A84FF" points="0 242 8.768 248 8.768 276 0 270"/>
+    <polygon fill="#D70022" points="0 345 8.768 351 8.768 379 0 373"/>
+    <polygon fill="#0A84FF" points="0 311 8.768 317 8.768 345 0 339"/>
+    <polygon fill="#D70022" points="0 414 8.768 420 8.768 448 0 442"/>
+    <polygon fill="#D70022" points="0 551 8.768 557 8.768 585 0 579"/>
+    <polygon fill="#0A84FF" points="0 380 8.768 386 8.768 414 0 408"/>
+    <polygon fill="#D70022" points="0 482 8.768 488 8.768 516 0 510"/>
+    <polygon fill="#D70022" points="0 619 8.768 625 8.768 653 0 647"/>
+    <polygon fill="#0A84FF" points="0 448 8.768 454 8.768 482 0 476"/>
+    <polygon fill="#0A84FF" points="0 585 8.768 591 8.768 619 0 613"/>
+    <polygon fill="#D70022" points="0 688 8.768 694 8.768 722 0 716"/>
+    <polygon fill="#0A84FF" points="0 517 8.768 523 8.768 551 0 545"/>
+    <polygon fill="#0A84FF" points="0 654 8.768 660 8.768 688 0 682"/>
+    <rect width="9" height="16" fill="#D70022"/>
+  </g>
+</svg>
