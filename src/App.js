@@ -6,16 +6,18 @@ import navigation from './images/navigation.png';
 import illustration from './images/send-illustration.png';
 import './App.css';
 
+// loading, failed & canceled, expired, encrypted
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: 'homefiles',
+      view: 'home',
       file: 'default'
     }
   }
   switchView = (view) => {
-    if(view == 'homefiles') {
+    if(view === 'homefiles') {
       this.setState({
         file: 'default'
       })
@@ -25,6 +27,9 @@ class App extends Component {
     })
   }
   switchFileState = (state) => {
+    this.setState({
+      view: 'homefiles'
+    })
     this.setState({
       file: state
     })
@@ -50,8 +55,14 @@ class App extends Component {
           <li onClick={() => this.switchView('fabpress')}>FabPress</li>
           <li onClick={() => this.switchView('permission')}>Permission</li>
           <li onClick={() => this.switchView('homefiles')}>Single file</li>
-          <li onClick={() => this.switchFileState('multiple')}>Multiple file</li>
-          <li onClick={() => this.switchFileState('expand')}>Multiple file (expand)</li>
+          <ul>
+            <li onClick={() => this.switchFileState('password')}>Single file (password protected)</li>
+            <li onClick={() => this.switchFileState('multiple')}>Multiple file</li>
+            <li onClick={() => this.switchFileState('expand')}>Multiple file (expand)</li>
+            <li onClick={() => this.switchFileState('upload')}>File uploading</li>
+            <li onClick={() => this.switchFileState('failed')}>Upload failed or canceled</li>
+            <li onClick={() => this.switchFileState('expired')}>File expired</li>
+          </ul>
         </ul>
       </div>
     );
@@ -111,8 +122,15 @@ function Files(props) {
   let files = 1;
   let file_text1 = "";
   let file_text2 = "";
-  let section2 = null
+  let section2 = null;
+  let file_size ="14.55 MB";
+  let icon = (<i className="material-icons">more_vert</i>);
+
+  let password = (state === 'password') ? (<i className="material-icons lock">lock</i>) : "";
+  let status = (<p className="fileStatus">Expired after: <span className="strong"> 10 downloads or 23h 40m</span></p>);
+
   switch(state) {
+    case 'password':
     case 'default':
       section2 = (<div className="fileCard-Section-2 flex-end"><div className="fileAction"><i className="material-icons">link</i><p>Copy Link</p></div></div>);
       break;
@@ -125,6 +143,25 @@ function Files(props) {
       files = 3;
       section2 = (<div className="fileCard-Section-2"><i className="material-icons">keyboard_arrow_up</i><div className="fileAction"><i className="material-icons">link</i><p>Copy Link</p></div></div>);
       break;
+    case 'upload':
+      file_size = "7.27 MB/14.55 MB"
+      status = (
+        <div className="fileProgress">
+          <p>50%</p>
+          <div className="fileProgressBar"></div>
+        </div>
+      );
+      section2 = (<div className="fileCard-Section-2 flex-end"><div className="fileAction"><p>Cancel</p></div></div>);
+      break;
+    case 'failed':
+      status = (<p className="fileStatus failed"><i className="material-icons">error</i>Sent failed</p>);
+      section2 = (<div className="fileCard-Section-2 flex-end"><div className="fileAction"><p>Try Again</p></div></div>);
+      break;
+    case "expired":
+      icon = (<i className="material-icons">delete_outline</i>)
+      status = (<p className="fileStatus expired"><i className="material-icons">warning</i>Expired: filename.pdf + 3 files<br/>Time’s up!</p>);
+      break;
+
   }
   let section1 = [];
   for(var i = 0; i < files; i++) {
@@ -133,17 +170,17 @@ function Files(props) {
           <figure className="fileImg"></figure>
           <div className="fileName">
             <p>IMG_20180709-50-102.jpg{file_text1}</p>
-            <p>14.55 MB{file_text2}</p>
+            <p className="flex aic">{file_size}{file_text2}{password}</p>
           </div>
         </div>
-        <i className="material-icons">more_vert</i>
+        {icon}
       </div>)
   }
 
   return (
     <div className="fileCard">
       {section1}
-      <p className="fileStatus">Expired after: <span className="strong"> 10 downloads or 23h 40m</span></p>
+      {status}
       {section2}
     </div>
   )
