@@ -6,8 +6,6 @@ import navigation from './images/navigation.png';
 import illustration from './images/send-illustration.png';
 import './App.css';
 
-// loading, failed & canceled, expired, encrypted
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -26,9 +24,9 @@ class App extends Component {
       view: view
     })
   }
-  switchFileState = (state) => {
+  switchFileState = (state, view) => {
     this.setState({
-      view: 'homefiles'
+      view: view
     })
     this.setState({
       file: state
@@ -44,7 +42,10 @@ class App extends Component {
       'home': <Home view={this.state.view} switchView={this.switchView.bind(this)} />,
       'fabpress': <FabPress view={this.state.view} switchView={this.switchView.bind(this)} />,
       'permission': <Permission view={this.state.view} switchView={this.switchView.bind(this)} />,
-      'homefiles': <HomeFiles view={this.state.view} switchView={this.switchView.bind(this)} switchFileState={this.switchFileState.bind(this)} getState={this.getState.bind(this)} />
+      'homefiles': <HomeFiles view={this.state.view} switchView={this.switchView.bind(this)} switchFileState={this.switchFileState.bind(this)} getState={this.getState.bind(this)} />,
+      'sendfiles': <SendFiles view={this.state.view} switchView={this.switchView.bind(this)} switchFileState={this.switchFileState.bind(this)} getState={this.getState.bind(this)} />,
+      'about': <About view={this.state.view} switchView={this.switchView.bind(this)} />,
+      'signin': <SignIn view={this.state.view} switchView={this.switchView.bind(this)} />
     }
     let container = viewContainerMapping[this.state.view];
     return (
@@ -56,13 +57,20 @@ class App extends Component {
           <li onClick={() => this.switchView('permission')}>Permission</li>
           <li onClick={() => this.switchView('homefiles')}>Single file</li>
           <ul>
-            <li onClick={() => this.switchFileState('password')}>Single file (password protected)</li>
-            <li onClick={() => this.switchFileState('multiple')}>Multiple file</li>
-            <li onClick={() => this.switchFileState('expand')}>Multiple file (expand)</li>
-            <li onClick={() => this.switchFileState('upload')}>File uploading</li>
-            <li onClick={() => this.switchFileState('failed')}>Upload failed or canceled</li>
-            <li onClick={() => this.switchFileState('expired')}>File expired</li>
+            <li onClick={() => this.switchFileState('password','homefiles')}>Single file (password protected)</li>
+            <li onClick={() => this.switchFileState('multiple','homefiles')}>Multiple files</li>
+            <li onClick={() => this.switchFileState('expand','homefiles')}>Multiple files (expand)</li>
+            <li onClick={() => this.switchFileState('upload','homefiles')}>File uploading</li>
+            <li onClick={() => this.switchFileState('failed','homefiles')}>Upload failed or canceled</li>
+            <li onClick={() => this.switchFileState('expired','homefiles')}>File expired</li>
           </ul>
+          <li onClick={() => this.switchView('sendfiles')}>Send single file</li>
+          <ul>
+            <li onClick={() => this.switchFileState('password','sendfiles')}>Send single file (password protected)</li>
+            <li onClick={() => this.switchFileState('multiple','sendfiles')}>Send multiple files (signed in)</li>
+          </ul>
+          <li onClick={() => this.switchView('about')}>About page</li>
+          <li onClick={() => this.switchView('signin')}>Sign in page</li>
         </ul>
       </div>
     );
@@ -79,18 +87,36 @@ function StatusBar(props) {
     </div>
   )
 }
-function AppBar() {
-  return (
-    <div className="appBar">
-      <div className="appBar-logo">
-        <img src={logo} width="25" height="24"/>
-        <h1 className="firaSans">
-          <span className="semiBold">Firefox </span><span className="regular">Send</span>
-        </h1>
-      </div>
+function AppBar(props) {
+  let title = props.title;
+  let appBarLogo = (
+    <div className="appBar-logo">
+      <img src={logo} width="25" height="24"/>
+      <h1 className="firaSans">
+        <span className="semiBold">Firefox </span><span className="regular">Send</span>
+      </h1>
+    </div>
+  )
+  let more = (
       <div className="appBar-icon">
         <i className="material-icons">more_vert</i>
       </div>
+  )
+  if(title !== 'send') {
+    more = "";
+    appBarLogo = (
+      <div className="appBar-logo">
+        <i className="material-icons">close</i>
+        <h1 className="firaSans">
+          <span className="semiBold">{title}</span>
+        </h1>
+      </div>
+    ) 
+  }
+  return (
+    <div className="appBar">
+      {appBarLogo}
+      {more}
     </div>
   )
 }
@@ -192,7 +218,7 @@ class Home extends Component {
     return (
       <div className="mobileContainer envelope">
         <StatusBar color="white"/>
-        <AppBar/>
+        <AppBar title="send"/>
         <div className="appContent" id="home">
           <div>
             <img src={illustration} width="69" height="88"/>
@@ -213,7 +239,7 @@ class FabPress extends Component {
       <div className="mobileContainer envelope">
         <div className="overlay-gray"></div>
         <StatusBar color="white"/>
-        <AppBar/>
+        <AppBar title="send"/>
         <div className="appContent" id="home">
           <div>
             <img src={illustration} width="69" height="88"/>
@@ -245,7 +271,7 @@ class Permission extends Component {
           </div>
         </div>
         <StatusBar color="white"/>
-        <AppBar/>
+        <AppBar title="send"/>
         <div className="appContent" id="home">
           <div>
             <img src={illustration} width="69" height="88"/>
@@ -266,11 +292,83 @@ class HomeFiles extends Component {
     return (
       <div className="mobileContainer envelope">
         <StatusBar color="white"/>
-        <AppBar/>
+        <AppBar title="send"/>
         <div className="appContent hasFiles">
           <Files state={filestate}/>
         </div>
         <Fab color="light-blue" icon="cloud_upload"/>
+        <NavigationBar/>
+      </div>
+    );
+  }
+}
+
+class SendFiles extends Component {
+  render() {
+    return (
+      <div className="mobileContainer bg-dark-blue">
+        <StatusBar color="dark-blue"/>
+        <div className="sendPanel bg-white">
+          <h2>Selected files</h2>
+          <div className="fileCard-Section-1">
+            <div>
+              <figure className="fileImg"></figure>
+              <div className="fileName">
+                <p>IMG_20180709-50-102.jpg</p>
+                <p className="flex aic">14.55 MB</p>
+              </div>
+            </div>
+            <i className="material-icons">close</i>
+          </div>
+          <div className="fileSend-Section-2">
+            <p>Expired after</p>
+              <div className="md-checkbox">
+                <input id="i2" type="checkbox" />
+                <label for="i2">Protect with password</label>
+              </div>
+            <p className="black">
+              <span className="strong light-blue uppercase">log in </span>
+              or 
+              <span className="strong light-blue uppercase"> sign up </span>
+              for more expiry options.
+            </p>
+            <div className="action-button">send</div>
+          </div>
+        </div>
+        <NavigationBar/>
+      </div>
+    );
+  }
+}
+
+class About extends Component {
+  render() {
+    return (
+      <div className="mobileContainer">
+        <StatusBar color="white"/>
+        <AppBar title="About"/>
+        <div className="appContent" id="home">
+          <div>
+            
+          </div>
+        </div>
+        <NavigationBar/>
+      </div>
+    );
+  }
+}
+
+class SignIn extends Component {
+  render() {
+    return (
+      <div className="mobileContainer">
+        <StatusBar color="white"/>
+        <AppBar title="Sign in"/>
+        <div className="appContent" id="home">
+          <div>
+            
+          </div>
+        </div>
         <NavigationBar/>
       </div>
     );
