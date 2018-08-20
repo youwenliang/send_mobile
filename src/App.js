@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
+
+// Images
 import logo from './images/logo.svg';
+import logotext from './images/logotext.png';
 import status from './images/status.svg';
 import status_white from './images/status-white.svg';
 import navigation from './images/navigation.png';
 import illustration from './images/send-illustration.png';
+
+// Material Design
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
 import './App.css';
 
 class App extends Component {
@@ -15,7 +24,7 @@ class App extends Component {
     }
   }
   switchView = (view) => {
-    if(view === 'homefiles') {
+    if(view === 'homefiles' || view === 'sendfiles') {
       this.setState({
         file: 'default'
       })
@@ -66,11 +75,10 @@ class App extends Component {
           </ul>
           <li onClick={() => this.switchView('sendfiles')}>Send single file</li>
           <ul>
-            <li onClick={() => this.switchFileState('password','sendfiles')}>Send single file (password protected)</li>
             <li onClick={() => this.switchFileState('multiple','sendfiles')}>Send multiple files (signed in)</li>
           </ul>
           <li onClick={() => this.switchView('about')}>About page</li>
-          <li onClick={() => this.switchView('signin')}>Sign in page</li>
+          {/*<li onClick={() => this.switchView('signin')}>Sign in page</li>*/}
         </ul>
       </div>
     );
@@ -83,7 +91,7 @@ function StatusBar(props) {
   let img = (color === 'white') ? status : status_white
   return (
     <div className={"statusBar bg-"+color}>
-      <img src={img} width="96" height="16"/>
+      <img src={img} width="96" height="16" alt="status"/>
     </div>
   )
 }
@@ -91,7 +99,7 @@ function AppBar(props) {
   let title = props.title;
   let appBarLogo = (
     <div className="appBar-logo">
-      <img src={logo} width="25" height="24"/>
+      <img src={logo} width="25" height="24" alt="logo"/>
       <h1 className="firaSans">
         <span className="semiBold">Firefox </span><span className="regular">Send</span>
       </h1>
@@ -122,7 +130,7 @@ function AppBar(props) {
 }
 function NavigationBar() {
   return (
-    <img className="navigationBar" src={navigation} width="100%"/>
+    <img className="navigationBar" src={navigation} width="100%" alt="navigation"/>
   )
 }
 function Fab(props) {
@@ -187,6 +195,8 @@ function Files(props) {
       icon = (<i className="material-icons">delete_outline</i>)
       status = (<p className="fileStatus expired"><i className="material-icons">warning</i>Expired: filename.pdf + 3 files<br/>Time’s up!</p>);
       break;
+    default:
+      break;
 
   }
   let section1 = [];
@@ -195,7 +205,7 @@ function Files(props) {
         <div>
           <figure className="fileImg"></figure>
           <div className="fileName">
-            <p>IMG_20180709-50-102.jpg{file_text1}</p>
+            <p>IMG_20180709-102.jpg{file_text1}</p>
             <p className="flex aic">{file_size}{file_text2}{password}</p>
           </div>
         </div>
@@ -221,7 +231,7 @@ class Home extends Component {
         <AppBar title="send"/>
         <div className="appContent" id="home">
           <div>
-            <img src={illustration} width="69" height="88"/>
+            <img src={illustration} width="69" height="88" alt="illustration"/>
             <h2>Private, Encrypted File Sharing</h2>
             <p>Send files through a safe, private, and encrypted link that automatically expired to ensure your stuff does not remain online forever.</p>
           </div>
@@ -242,7 +252,7 @@ class FabPress extends Component {
         <AppBar title="send"/>
         <div className="appContent" id="home">
           <div>
-            <img src={illustration} width="69" height="88"/>
+            <img src={illustration} width="69" height="88" alt="illustration"/>
             <h2>Private, Encrypted File Sharing</h2>
             <p>Send files through a safe, private, and encrypted link that automatically expired to ensure your stuff does not remain online forever.</p>
           </div>
@@ -274,7 +284,7 @@ class Permission extends Component {
         <AppBar title="send"/>
         <div className="appContent" id="home">
           <div>
-            <img src={illustration} width="69" height="88"/>
+            <img src={illustration} width="69" height="88" alt="illustration"/>
             <h2>Private, Encrypted File Sharing</h2>
             <p>Send files through a safe, private, and encrypted link that automatically expired to ensure your stuff does not remain online forever.</p>
           </div>
@@ -304,34 +314,106 @@ class HomeFiles extends Component {
 }
 
 class SendFiles extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      password: false
+    }
+  }
+  checkbox = () => {
+    if(!this.state.password) {
+      this.setState({password: true});
+    } else {
+      this.setState({password: false});
+    }
+  }
   render() {
-    return (
-      <div className="mobileContainer bg-dark-blue">
-        <StatusBar color="dark-blue"/>
-        <div className="sendPanel bg-white">
-          <h2>Selected files</h2>
+    let files = "";
+    let login = "";
+    let password = (this.state.password) ? "" : " dn";
+
+    let filestate = this.props.getState();
+    if(filestate === "multiple") {
+      files = (
+        <div>
           <div className="fileCard-Section-1">
             <div>
               <figure className="fileImg"></figure>
               <div className="fileName">
-                <p>IMG_20180709-50-102.jpg</p>
+                <p>IMG_20180709-102.jpg</p>
                 <p className="flex aic">14.55 MB</p>
               </div>
             </div>
             <i className="material-icons">close</i>
           </div>
+          <div className="fileCard-Section-1">
+            <div>
+              <figure className="fileImg"></figure>
+              <div className="fileName">
+                <p>IMG_20180709-102.jpg</p>
+                <p className="flex aic">14.55 MB</p>
+              </div>
+            </div>
+            <i className="material-icons">close</i>
+          </div>
+          <div className="fileCard-Section-1">
+            <div>
+              <figure className="fileImg"></figure>
+              <div className="fileName">
+                <p>IMG_20180709-102.jpg</p>
+                <p className="flex aic">14.55 MB</p>
+              </div>
+            </div>
+            <i className="material-icons">close</i>
+          </div>
+        </div>
+      )
+    } else {
+      files = (
+        <div>
+          <div className="fileCard-Section-1">
+            <div>
+              <figure className="fileImg"></figure>
+              <div className="fileName">
+                <p>IMG_20180709-102.jpg</p>
+                <p className="flex aic">14.55 MB</p>
+              </div>
+            </div>
+            <i className="material-icons">close</i>
+          </div>
+        </div>
+      )
+      login = (
+        <p className="black">
+          <span className="strong light-blue uppercase">log in </span>
+          or 
+          <span className="strong light-blue uppercase"> sign up </span>
+          for more expiry options.
+        </p>
+      )
+    }
+
+    return (
+      <div className="mobileContainer bg-dark-blue">
+        <StatusBar color="dark-blue"/>
+        <div className="sendPanel bg-white">
+          <h2>Selected files</h2>
+          {files}
           <div className="fileSend-Section-2">
             <p>Expired after</p>
+              <div className="flex aic space-between dropdown">
+                <SimpleMenu text="1 Download"/>
+                <span className="gray">or</span>
+                <SimpleMenu text="24 Hours"/>
+              </div>
               <div className="md-checkbox">
-                <input id="i2" type="checkbox" />
+                <input id="i2" type="checkbox"  onClick={() => this.checkbox()}/>
                 <label for="i2">Protect with password</label>
               </div>
-            <p className="black">
-              <span className="strong light-blue uppercase">log in </span>
-              or 
-              <span className="strong light-blue uppercase"> sign up </span>
-              for more expiry options.
-            </p>
+              <div className={"textfield"+password}>
+                ********
+              </div>
+            {login}
             <div className="action-button">send</div>
           </div>
         </div>
@@ -343,13 +425,19 @@ class SendFiles extends Component {
 
 class About extends Component {
   render() {
+    var mb77 = {
+      marginBottom: "77px",
+      zIndex: 1
+    }
     return (
       <div className="mobileContainer">
         <StatusBar color="white"/>
         <AppBar title="About"/>
-        <div className="appContent" id="home">
-          <div>
-            
+        <div className="appContent" id="about">
+          <div style={mb77}>
+            <img src={logotext} width="225" alt="logotext" />
+            <p className="intro">Firefox Send, a service that allows you to share files with a safe, private, and encrypted link that automatically expires to ensure your stuff does not remain online forever.</p>
+            <p className="link">Learn more</p>
           </div>
         </div>
         <NavigationBar/>
@@ -370,6 +458,52 @@ class SignIn extends Component {
           </div>
         </div>
         <NavigationBar/>
+      </div>
+    );
+  }
+}
+
+class SimpleMenu extends React.Component {
+  state = {
+    anchorEl: null,
+  };
+
+  handleClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  render() {
+    const { anchorEl } = this.state;
+    let items = [];
+    if(this.props.text === "1 Download") {
+      items = ["1 Download", "10 Downloads", "20 Downloads"]
+    } else if(this.props.text === "24 Hours") {
+      items = ["5 Minutes ", "1 Hour", "24 Hours"]
+    }
+    return (
+      <div>
+        <Button
+          aria-owns={anchorEl ? 'simple-menu' : null}
+          aria-haspopup="true"
+          onClick={this.handleClick}
+        >
+          {this.props.text}
+          <i className="material-icons dark">arrow_drop_down</i>
+        </Button>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={this.handleClose}
+        >
+          <MenuItem onClick={this.handleClose}>{items[0]}</MenuItem>
+          <MenuItem onClick={this.handleClose}>{items[1]}</MenuItem>
+          <MenuItem onClick={this.handleClose}>{items[2]}</MenuItem>
+        </Menu>
       </div>
     );
   }
