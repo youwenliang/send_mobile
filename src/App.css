@@ -104,6 +104,7 @@ html, body {
   justify-content: space-between;
   align-items: center;
   color: #272727;
+  z-index: 10;
 }
 
 .appBar-logo {
